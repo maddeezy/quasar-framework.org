@@ -26,3 +26,38 @@ When running your application in development you may have noticed a message from
 
 ┗ ----------------------------
 ```
+When using native modules, after npm install bindings change
+
+Example using npm serialport
+
+Since serialport is compiled cpp bindings breaks after npm install....see link below
+
+https://electronjs.org/docs/tutorial/using-native-node-modules
+
+Run 
+
+npm install --save-dev electron-rebuild 
+
+# Every time you run "npm install", run this:
+ ./node_modules/.bin/electron-rebuild 
+
+# On Windows if you have trouble, try:
+ .\node_modules.bin\electron-rebuild
+
+Then make this available globally
+
+/src/index.template.html
+
+Add after </body>
+
+<script>
+    const SerialPort = require('serialport')
+</script>
+
+You can test if it's working on any page with
+
+SerialPort.list((err, ports) => { console.log(ports) })
+
+For Production, make sure to add "-b builder" flag
+
+quasar build -m electron -t mat -b builder
